@@ -66,6 +66,10 @@ function installNghdl
     unzip -o nghdl.zip
     cd nghdl/
     chmod +x install-nghdl.sh
+    # install-nghdl.sh has no case for Ubuntu 25.04+; reuse the 24.04 script
+    # libcanberra-gtk-module was dropped in Ubuntu 25.04+; libcanberra-gtk3-module is already requested
+    sed -i 's/ libcanberra-gtk-module / /' install-nghdl-scripts/install-nghdl-24.04.sh
+    sed -i 's/^        "24.04")/        "24.04"|"25.04"|"26.04")/' install-nghdl.sh
 
     # Do not trap on error of any command. Let NGHDL script handle its own errors.
     trap "" ERR
@@ -141,17 +145,24 @@ function installKicad
         kicadppa="kicad/kicad-6.0-releases"
     fi
 
-    # Check if the PPA is already added
-    if ! grep -q "^deb .*${kicadppa}" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
-        echo "Adding KiCad PPA to local apt repository: $kicadppa"
-        sudo add-apt-repository -y "ppa:$kicadppa"
-        sudo apt-get update
+    # Use the distro's own KiCad when the PPA has no packages for this release
+    codename=$(lsb_release -cs)
+    if ! curl -fsI "https://ppa.launchpadcontent.net/${kicadppa}/ubuntu/dists/${codename}/Release" > /dev/null 2>&1; then
+        echo "KiCad PPA has no packages for ${codename}. Using Ubuntu repositories instead."
+        sudo apt-get install -y --no-install-recommends kicad kicad-footprints kicad-libraries kicad-symbols kicad-templates
     else
-        echo "KiCad PPA is already present in sources."
-    fi
+        # Check if the PPA is already added
+        if ! grep -q "^deb .*${kicadppa}" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
+            echo "Adding KiCad PPA to local apt repository: $kicadppa"
+            sudo add-apt-repository -y "ppa:$kicadppa"
+            sudo apt-get update
+        else
+            echo "KiCad PPA is already present in sources."
+        fi
 
-    # Install KiCad packages
-    sudo apt-get install -y --no-install-recommends kicad=8.0.8+dfsg-1 kicad-footprints kicad-libraries kicad-symbols kicad-templates
+        # Install KiCad packages
+        sudo apt-get install -y --no-install-recommends kicad=8.0.8+dfsg-1 kicad-footprints kicad-libraries kicad-symbols kicad-templates
+    fi
 
     echo "KiCad installation completed successfully!"
 }
@@ -171,7 +182,7 @@ function installDependency
     trap error_exit ERR
     
     echo "Instaling virtualenv......................."
-    sudo apt install python3-virtualenv
+    sudo apt-get install -y python3-virtualenv
    
     echo "Creating virtual environment to isolate packages "
     virtualenv $config_dir/env
@@ -431,6 +442,7 @@ elif [ $option == "--uninstall" ];then
         cd nghdl/
         if [ $? -eq 0 ];then
         	chmod +x install-nghdl.sh
+            sed -i 's/^        "24.04")/        "24.04"|"25.04"|"26.04")/' install-nghdl.sh
     	    ./install-nghdl.sh --uninstall
     	    cd ../
     	    rm -rf nghdl
