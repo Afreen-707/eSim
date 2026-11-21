@@ -1,0 +1,65 @@
+Enter proxy details if you are connected to internet thorugh proxy
+Is your internet connection behind proxy? (y/n): Install without proxy
+Updating apt index files...................
+Hit:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Reading package lists...
+Instaling virtualenv.......................
+Reading package lists...
+Building dependency tree...
+Reading state information...
+python3-virtualenv is already the newest version (20.36.1+ds-1).
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 140 not upgraded.
+Creating virtual environment to isolate packages 
+created virtual environment CPython3.14.4.final.0-64 in 2202ms
+  creator CPython3Posix(dest=/home/dell/.esim/env, clear=False, no_vcs_ignore=False, global=False)
+  seeder FromAppData(download=False, pip=bundle, via=copy, app_data_dir=/home/dell/.local/share/virtualenv)
+    added seed packages: pip==25.1.1
+  activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+Starting the virtual env...................
+Upgrading Pip..............................
+Requirement already satisfied: pip in /home/dell/.esim/env/lib/python3.14/site-packages (25.1.1)
+Collecting pip
+  Using cached pip-26.3-py3-none-any.whl.metadata (4.6 kB)
+Using cached pip-26.3-py3-none-any.whl (2.0 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 25.1.1
+    Uninstalling pip-25.1.1:
+      Successfully uninstalled pip-25.1.1
+Successfully installed pip-26.3
+Installing Xterm...........................
+Reading package lists...
+Building dependency tree...
+Reading state information...
+xterm is already the newest version (407-1ubuntu1).
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 140 not upgraded.
+Installing Psutil..........................
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following NEW packages will be installed:
+  python3-psutil
+0 upgraded, 1 newly installed, 0 to remove and 140 not upgraded.
+Need to get 191 kB of archives.
+After this operation, 1136 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu resolute/main amd64 python3-psutil amd64 7.1.0-1ubuntu1 [191 kB]
+Fetched 191 kB in 0s (477 kB/s)
+Selecting previously unselected package python3-psutil.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 36324 files and directories currently installed.)
+Preparing to unpack .../python3-psutil_7.1.0-1ubuntu1_amd64.deb ...
+Unpacking python3-psutil (7.1.0-1ubuntu1) ...
+Setting up python3-psutil (7.1.0-1ubuntu1) ...
+E: Setting in Stop via TCSAFLUSH for stdin failed! - tcsetattr (4: Interrupted system call)
+E: Setting in Stop via TCSAFLUSH for stdin failed! - tcsetattr (4: Interrupted system call)
+
+
+Error! Kindly resolve above error(s) and try again.
+
+Aborting Installation...
+

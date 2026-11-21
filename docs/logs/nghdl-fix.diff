@@ -1,0 +1,19 @@
+--- install-eSim.sh.bak2	2026-11-21 12:56:46.325151354 +0000
++++ install-eSim.sh	2026-11-21 12:57:37.063011484 +0000
+@@ -66,6 +66,8 @@
+     unzip -o nghdl.zip
+     cd nghdl/
+     chmod +x install-nghdl.sh
++    # install-nghdl.sh has no case for Ubuntu 25.04+; reuse the 24.04 script
++    sed -i 's/^        "24.04")/        "24.04"|"25.04"|"26.04")/' install-nghdl.sh
+ 
+     # Do not trap on error of any command. Let NGHDL script handle its own errors.
+     trap "" ERR
+@@ -438,6 +440,7 @@
+         cd nghdl/
+         if [ $? -eq 0 ];then
+         	chmod +x install-nghdl.sh
++            sed -i 's/^        "24.04")/        "24.04"|"25.04"|"26.04")/' install-nghdl.sh
+     	    ./install-nghdl.sh --uninstall
+     	    cd ../
+     	    rm -rf nghdl

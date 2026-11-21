@@ -1,0 +1,36 @@
+--- install-eSim.sh.bak	2026-11-21 12:14:04.204121700 +0000
++++ install-eSim.sh	2026-11-21 12:14:04.281947000 +0000
+@@ -141,17 +141,24 @@
+         kicadppa="kicad/kicad-6.0-releases"
+     fi
+ 
+-    # Check if the PPA is already added
+-    if ! grep -q "^deb .*${kicadppa}" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
+-        echo "Adding KiCad PPA to local apt repository: $kicadppa"
+-        sudo add-apt-repository -y "ppa:$kicadppa"
+-        sudo apt-get update
++    # Use the distro's own KiCad when the PPA has no packages for this release
++    codename=$(lsb_release -cs)
++    if ! curl -fsI "https://ppa.launchpadcontent.net/${kicadppa}/ubuntu/dists/${codename}/Release" > /dev/null 2>&1; then
++        echo "KiCad PPA has no packages for ${codename}. Using Ubuntu repositories instead."
++        sudo apt-get install -y --no-install-recommends kicad kicad-footprints kicad-libraries kicad-symbols kicad-templates
+     else
+-        echo "KiCad PPA is already present in sources."
+-    fi
++        # Check if the PPA is already added
++        if ! grep -q "^deb .*${kicadppa}" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
++            echo "Adding KiCad PPA to local apt repository: $kicadppa"
++            sudo add-apt-repository -y "ppa:$kicadppa"
++            sudo apt-get update
++        else
++            echo "KiCad PPA is already present in sources."
++        fi
+ 
+-    # Install KiCad packages
+-    sudo apt-get install -y --no-install-recommends kicad=8.0.8+dfsg-1 kicad-footprints kicad-libraries kicad-symbols kicad-templates
++        # Install KiCad packages
++        sudo apt-get install -y --no-install-recommends kicad=8.0.8+dfsg-1 kicad-footprints kicad-libraries kicad-symbols kicad-templates
++    fi
+ 
+     echo "KiCad installation completed successfully!"
+ }

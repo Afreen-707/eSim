@@ -1,0 +1,11 @@
+--- install-eSim.sh.bak3	2026-11-21 13:06:15.657658554 +0000
++++ install-eSim.sh	2026-11-21 13:06:23.450170486 +0000
+@@ -67,6 +67,8 @@
+     cd nghdl/
+     chmod +x install-nghdl.sh
+     # install-nghdl.sh has no case for Ubuntu 25.04+; reuse the 24.04 script
++    # libcanberra-gtk-module was dropped in Ubuntu 25.04+; libcanberra-gtk3-module is already requested
++    sed -i 's/ libcanberra-gtk-module / /' install-nghdl-scripts/install-nghdl-24.04.sh
+     sed -i 's/^        "24.04")/        "24.04"|"25.04"|"26.04")/' install-nghdl.sh
+ 
+     # Do not trap on error of any command. Let NGHDL script handle its own errors.
